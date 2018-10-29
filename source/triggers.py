@@ -7,7 +7,7 @@ class Triggers:
         self.import_triggers()
     def import_triggers(self):
         try:
-            with open("../config/triggers.json","r+") as f:
+            with open("/home/sean/golem/config/triggers.json","r+") as f:
                 try:
                     self.triggers = json.load(f)
                 except:

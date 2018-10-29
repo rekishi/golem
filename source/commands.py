@@ -22,9 +22,12 @@ class Commands(BaseCommands):
         self.import_grabs()
         self.import_places()
         self.doot_times = {}
-        self.backlog = BaseCommands.read_json("../data/backlog.json")
-        self.work_tells = BaseCommands.read_json("../data/wtells.json")
-        self.reminds = BaseCommands.read_json("../data/reminds.json")
+        self.backlog = BaseCommands.read_json("/home/sean/golem/data/backlog.json")
+        self.work_tells = BaseCommands.read_json("/home/sean/golem/data/wtells.json")
+        self.banlist = BaseCommands.read_json("/home/sean/golem/data/banlist.json")
+        if self.banlist is None:
+            self.banlist = []
+        self.reminds = BaseCommands.read_json("/home/sean/golem/data/reminds.json")
         if self.reminds is None:
             self.reminds = {}
         self.gkey = g_token
@@ -38,11 +41,15 @@ class Commands(BaseCommands):
         elif command == "coinflip":
             return self.ask("heads or tails")
         elif command == "updoot":
+            if message.author.id in self.banlist:
+                return "No"
             if args.split(' ',1)[0] != sender:
                 return self.doot(args.split(' ',1)[0],1)
             else:
                 return "No"
         elif command == "downdoot":
+            if message.author.id in self.banlist:
+                return "No"
             if args.split(" ",1)[0] != sender:
                 return self.doot(args.split(' ',1)[0],-1)
             else:
@@ -84,6 +91,26 @@ class Commands(BaseCommands):
             return self.remind(sender,args)
         elif command == "help":
             return self.get_help(args)
+        elif command == "animenight":
+            return "Visit http://anime.rekishinet.net to vote in this week's poll"
+        elif command == "sin":
+            return "https://gfycat.com/PlushIdealisticCornsnake"
+        elif command == "pain":
+            return "https://cdn.discordapp.com/attachments/385501518977040398/486026751466668043/16178557_1151991778233472_4487424668674229134_o.jpg"
+        elif command == "rekishi":
+            return "Gimp guru. 10th level weeb. Install Gentoo. [Redacted] year in Music Ed and History 1337 H@x0rz"
+        elif command == "yikes":
+            return "https://cdn.discordapp.com/attachments/486222442860380162/486283686040567808/image3.jpg"
+        elif command == "nani":
+            return "https://cdn.discordapp.com/attachments/486035281095688213/486036650468573184/video.mov"
+        elif command == "vu":
+            return "Hokage of the village. Ryu Main. Listens to K-pop. Third Year in Aerospace. When are we watching Parasyte?"
+        elif command == "perish":
+            return "https://i.imgur.com/ZvnpOaj.png"
+        elif command == "lenny":
+            return "( ͡° ͜ʖ ͡°)"
+        elif command == "wano":
+            return "https://0x0.st/s326.png"
         else:
             return self.get_unsupported_msg(command)
     def get_unsupported_msg(self,command):
@@ -106,29 +133,29 @@ class Commands(BaseCommands):
         else:
             return list()
     def export_tells(self):
-        BaseCommands.export_json("../data/tells.json",self.tells)
+        BaseCommands.export_json("/home/sean/golem/data/tells.json",self.tells)
     def import_tells(self):
-        self.tells = BaseCommands.read_json("../data/tells.json")
+        self.tells = BaseCommands.read_json("/home/sean/golem/data/tells.json")
         if self.tells == None:
             self.tells ={}
     def doot(self,person,change):
-#        if change !=0:
-#            if person in self.doot_times.keys():
-#                delt = datetime.datetime.now() - self.doot_times[person]
-#                if delt.total_seconds() < 30:
-#                    return "Chill yo"
-#            self.doot_times[person] = datetime.datetime.now()
+        if change !=0:
+            if person in self.doot_times.keys():
+                delt = datetime.datetime.now() - self.doot_times[person]
+                if delt.total_seconds() < 30:
+                    return "Chill yo"
+            self.doot_times[person] = datetime.datetime.now()
         if person in self.doots.keys():
             self.doots[person]+=change
             self.export_doots()
         else:
             self.doots[person]=change
             self.export_doots()
-        return "doot doot"
+        return "They have " +  str(self.doots[person])+" doots"
     def export_doots(self):
-        BaseCommands.export_json("../data/doots.json",self.doots)
+        BaseCommands.export_json("/home/sean/golem/data/doots.json",self.doots)
     def import_doots(self):
-        self.doots = BaseCommands.read_json("../data/doots.json")
+        self.doots = BaseCommands.read_json("/home/sean/golem/data/doots.json")
         if self.doots == None:
             self.doots = {}
     def add_grab(self,grab):
@@ -138,9 +165,9 @@ class Commands(BaseCommands):
         self.grabs[grab_source].append(grab.content)
         self.export_grabs()
     def import_grabs(self):
-        self.grabs = BaseCommands.read_json("../data/grabs.json")
+        self.grabs = BaseCommands.read_json("/home/sean/golem/data/grabs.json")
     def export_grabs(self):
-        BaseCommands.export_json("../data/grabs.json",self.grabs)
+        BaseCommands.export_json("/home/sean/golem/data/grabs.json",self.grabs)
     def get_grab_topic(self,thing):
         grabs= [ [{item:x} for x in self.grabs[item] if thing in x ] for item in self.grabs.keys()]
         grabs = [item for sublist in grabs for item in sublist]
@@ -164,9 +191,9 @@ class Commands(BaseCommands):
             options = ['yes','no']
         return random.choice(options)
     def import_places(self):
-        self.places = BaseCommands.read_json("../data/places.json")
+        self.places = BaseCommands.read_json("/home/sean/golem/data/places.json")
     def export_places(self):
-        BaseCommands.export_json("../data/places.json",self.places)
+        BaseCommands.export_json("/home/sean/golem/data/places.json",self.places)
     def add_place(self,place):
         if place not in self.places:
             self.places.append(place)
@@ -201,24 +228,24 @@ class Commands(BaseCommands):
         forecast = location.forecast()[0]
         return "Forecast: " + forecast["text"] +", " + forecast["high"] +"H "+ forecast["low"] + "L"
     def bang(self,target):
-        bangs = BaseCommands.read_json("../data/bangs.json")
+        bangs = BaseCommands.read_json("/home/sean/golem/data/bangs.json")
         bang = random.choice(bangs)
         return target + bang
     def add_to_backlog(self,item):
         if self.backlog == None:
             self.backlog = []
         self.backlog.append(item)
-        BaseCommands.export_json("../data/backlog.json",self.backlog)
+        BaseCommands.export_json("/home/sean/golem/data/backlog.json",self.backlog)
         return "Added to backlog"
     def list_commands(self):
-        commands = BaseCommands.read_json("../config/commands.json")
+        commands = BaseCommands.read_json("/home/sean/golem/config/commands.json")
         ret_com = [x +" usage: "+ commands[x] for x in commands.keys()]
         return "\n".join(ret_com)
     def add_to_dl_queue(self,link):
-        queue = BaseCommands.read_json("../data/queue.json")
+        queue = BaseCommands.read_json("/home/sean/golem/data/queue.json")
         queue = [] if queue is None else queue
         queue.append(link)
-        BaseCommands.export_json("../data/queue.json",queue)
+        BaseCommands.export_json("/home/sean/golem/data/queue.json",queue)
         return "Added " + link + " to download queue"
     def work_tell(self,sender,args):
         target = args.split(' ',1)[0]
@@ -228,7 +255,7 @@ class Commands(BaseCommands):
         if target not in self.work_tells.keys():
             self.work_tells[target] = []
         self.work_tells[target].append(sender+" said "+msg)
-        BaseCommands.export_json("../data/wtells.json",self.work_tells)
+        BaseCommands.export_json("/home/sean/golem/data/wtells.json",self.work_tells)
         return "Work tell added"
     def check_work_tells(self,sender):
         ret = "Work tells:"
@@ -237,7 +264,7 @@ class Commands(BaseCommands):
         for tell in self.work_tells[sender]:
             ret+="\n"+tell
         del self.work_tells[sender]
-        BaseCommands.export_json("../data/wtells.json",self.work_tells)
+        BaseCommands.export_json("/home/sean/golem/data/wtells.json",self.work_tells)
         return ret
     def roll(self,args):
         m = re.search(r'\b([0-9]+)d([0-9]+)(D[0-9]+[h,l])?([>,<][0-9]+)?(\+[0-9]+)?(x[0-9]+)?',args)
@@ -312,23 +339,23 @@ class Commands(BaseCommands):
             if sender not in self.reminds.keys():
                 self.reminds[sender] = ""
             self.reminds[sender] = self.reminds[sender]+" "+args
-            BaseCommands.export_json("../data/reminds.json",self.reminds)
+            BaseCommands.export_json("/home/sean/golem/data/reminds.json",self.reminds)
             return "Added remind"
         else:
             cur_reminds = self.reminds[sender]
             self.reminds[sender] = ""
-            BaseCommands.export_json("../data/reminds.json",self.reminds)
+            BaseCommands.export_json("/home/sean/golem/data/reminds.json",self.reminds)
             return cur_reminds
     def get_help(self,command):
         if command == "":
             return "usage: help <command> - returns help for <command>. use the 'commands' command to get a list of commands"
         try:
-            commands = BaseCommands.read_json("../config/commands.json")
+            commands = BaseCommands.read_json("/home/sean/golem/config/commands.json")
             return "usage: "+ commands[command]
         except:
             return command + " is not currently supported\n"+self.fuzzy_command(command)
     def fuzzy_command(self,inp):
-        commands = BaseCommands.read_json("../config/commands.json")
+        commands = BaseCommands.read_json("/home/sean/golem/config/commands.json")
         comms = commands.keys()
         best = 0
         ret = ""

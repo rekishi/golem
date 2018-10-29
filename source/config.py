@@ -2,7 +2,7 @@ import json
 import pprint
 class Config:
     def __init__(self):
-        self.load_from_file('../config/config.json')
+        self.load_from_file('/home/sean/golem/config/config.json')
     def get_commands(self):
         return self.commands 
     def get_token(self):
