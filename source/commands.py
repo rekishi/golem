@@ -46,14 +46,14 @@ class Commands(BaseCommands):
             if args.split(' ',1)[0] != sender:
                 return self.doot(args.split(' ',1)[0],1)
             else:
-                return "No"
-        elif command == "downdoot":
-            if message.author.id in self.banlist:
-                return "No"
-            if args.split(" ",1)[0] != sender:
-                return self.doot(args.split(' ',1)[0],-1)
-            else:
-                return "No"
+                return 
+#        elif command == "downdoot":
+#            if message.author.id in self.banlist:
+#                return "No"
+#            if args.split(" ",1)[0] != sender:
+#                return self.doot(args.split(' ',1)[0],-1)
+#            else:
+#                return "No"
         elif command == "doots":
             return self.doot(args,0)
         elif command == "sidedoot":
@@ -111,8 +111,11 @@ class Commands(BaseCommands):
             return "( ͡° ͜ʖ ͡°)"
         elif command == "wano":
             return "https://0x0.st/s326.png"
-        else:
-            return self.get_unsupported_msg(command)
+        elif command == "conch":
+            return "https://rekishinet.net/wp-content/uploads/Blank_9136ad970b31fc4142e35216a73986e1.png"
+
+#        else:
+#            return self.get_unsupported_msg(command)
     def get_unsupported_msg(self,command):
         return self.fuzzy_command(command)
     def do_tell(self,sender,args):
