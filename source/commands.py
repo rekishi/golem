@@ -94,19 +94,19 @@ class Commands(BaseCommands):
         elif command == "animenight":
             return "Visit http://anime.rekishinet.net to vote in this week's poll"
         elif command == "sin":
-            return "https://gfycat.com/PlushIdealisticCornsnake"
+            return "https://rekishinet.net/wp-content/uploads/PlushIdealisticCornsnake.webm"
         elif command == "pain":
-            return "https://cdn.discordapp.com/attachments/385501518977040398/486026751466668043/16178557_1151991778233472_4487424668674229134_o.jpg"
+            return "https://rekishinet.net/wp-content/uploads/16178557_1151991778233472_4487424668674229134_o.jpg"
         elif command == "rekishi":
             return "Gimp guru. 10th level weeb. Install Gentoo. [Redacted] year in Music Ed and History 1337 H@x0rz"
         elif command == "yikes":
-            return "https://cdn.discordapp.com/attachments/486222442860380162/486283686040567808/image3.jpg"
+            return "https://rekishinet.net/wp-content/uploads/image3.jpg"
         elif command == "nani":
             return "https://cdn.discordapp.com/attachments/486035281095688213/486036650468573184/video.mov"
         elif command == "vu":
             return "Hokage of the village. Ryu Main. Listens to K-pop. Third Year in Aerospace. When are we watching Parasyte?"
         elif command == "perish":
-            return "https://i.imgur.com/ZvnpOaj.png"
+            return "https://rekishinet.net/wp-content/uploads/ZvnpOaj.png"
         elif command == "lenny":
             return "( ͡° ͜ʖ ͡°)"
         elif command == "wano":
