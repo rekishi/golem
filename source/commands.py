@@ -102,7 +102,7 @@ class Commands(BaseCommands):
         elif command == "yikes":
             return "https://rekishinet.net/wp-content/uploads/image3.jpg"
         elif command == "nani":
-            return "https://cdn.discordapp.com/attachments/486035281095688213/486036650468573184/video.mov"
+            return "https://rekishinet.net/wp-content/uploads/video.mov"
         elif command == "vu":
             return "Hokage of the village. Ryu Main. Listens to K-pop. Third Year in Aerospace. When are we watching Parasyte?"
         elif command == "perish":
